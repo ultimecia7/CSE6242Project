@@ -11,7 +11,7 @@ import os
 from pylab import *  # for plotting
 
 def search_dijkstra(track_id):
-    g = load_graph("my_graph.xml.gz")
+    g = load_graph("my_graph_cleaned.xml.gz")
 
     # Find the vertex with track_id
     for v in g.vertices():
@@ -32,21 +32,27 @@ def search_dijkstra(track_id):
 
     # Destination nodes with infinite values
     # !!! Not sure why count of these nodes are only 647
+    '''
     count = 0
     for i in range(0, len(dist_map)):
         if dist_map[i] == float("inf"):
             count += 1
             dist_map[i] = 0
     print(count)
+    '''
 
     index, value = max(enumerate(dist_map), key=operator.itemgetter(1))
 
-    print("Printing out path:")
+    path = []
+    print("Printing out path in reversed order:")
     cur = index
     while cur != source:
-        print(cur)
+        path.append(g.vp.id[cur])
         cur = pred_map[cur]
+    path.append(track_id)
 
+    for node in path:
+        print(node)
     print("Finished")
 
 
