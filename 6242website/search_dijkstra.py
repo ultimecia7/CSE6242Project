@@ -14,14 +14,15 @@ def search_dijkstra(track_id):
     g = load_graph("my_graph_cleaned.xml.gz")
 
     # Find the vertex with track_id
+    source = -1
     for v in g.vertices():
         if g.vp.id[v] == track_id:
             source = v
             break
 
-    if source == None:
-        print("Track not found")
-        return
+    if source == -1:
+        #print("Track not found")
+        return []
 
     # Do Dijkstra search from the node
     # Documentation: https://graph-tool.skewed.de/static/doc/search_module.html#graph_tool.search.dijkstra_search
@@ -44,16 +45,20 @@ def search_dijkstra(track_id):
     index, value = max(enumerate(dist_map), key=operator.itemgetter(1))
 
     path = []
-    print("Printing out path in reversed order:")
+    #print("Printing out path in reversed order:")
     cur = index
     while cur != source:
         path.append(g.vp.id[cur])
         cur = pred_map[cur]
     path.append(track_id)
 
+    '''
     for node in path:
         print(node)
     print("Finished")
+    '''
+    path.reverse()
+    return path
 
 
 def main():
