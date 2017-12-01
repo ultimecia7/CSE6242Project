@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<!-- <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'> -->
+<script src="lib/d3.v3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<style>
+* {
+    font-family: sans-serif;
+}
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  stroke-width: 10px;
+}
+
+input[type="text"] {
+    width: 200px;
+    font-size: 16px
+}
+
+body {
+  font: Helvetica, sans-serif;
+  color: #2b2b2b;
+  text-shadow: 1px 1px 0px #ededed;
+  background-color:#FAFAF9;
+}
+
+#mainButton {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+    border-radius: 2px;
+    padding: 15px 32px;
+    font-size: 16px
+}
+</style>
+<body>
+
+<div id="input" style="text-align: center;">
+<input id = "source" name = "textInput" placeholder = "Enter Something You Like" type = "text">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input id = "target" name = "textInput" placeholder = "Enter Something You Don't Like (Optional)" type = "text">
+</div>
+
+<div id="viz" style="text-align: center;">
+
+</div>
+<div id="option" style="text-align: center;">
+    <input name="updateButton" 
+           type="button" 
+           value="Go!" 
+           onclick="retrievePath($('#source').val(),$('#target').val())" 
+           id = "mainButton"/>
+</div>
+<script src="main.js"></script>
+</body>
+</html>

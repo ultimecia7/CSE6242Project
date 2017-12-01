@@ -3,7 +3,8 @@ import sqlite3
 from search_dijkstra import search_dijkstra
 
 source  = sys.argv[1]
-target = sys.argv[2]
+if len(sys.argv) == 3:
+	target = sys.argv[2]
 
 path = search_dijkstra(source)
 
