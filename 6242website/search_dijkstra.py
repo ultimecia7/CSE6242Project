@@ -45,18 +45,12 @@ def search_dijkstra(track_id):
     index, value = max(enumerate(dist_map), key=operator.itemgetter(1))
 
     path = []
-    #print("Printing out path in reversed order:")
     cur = index
     while cur != source:
         path.append(g.vp.id[cur])
         cur = pred_map[cur]
     path.append(track_id)
 
-    '''
-    for node in path:
-        print(node)
-    print("Finished")
-    '''
     path.reverse()
     return path
 
