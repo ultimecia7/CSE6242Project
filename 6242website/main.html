@@ -40,9 +40,13 @@ body {
 
 <div id="input" style="text-align: center;">
 <input id = "source" name = "textInput" placeholder = "Enter Something You Like" type = "text">
+<button onclick="search_song($('#source').val(),'source_in')">Search Source</button>
+<select id="source_in"></select>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input id = "target" name = "textInput" placeholder = "Enter Something You Don't Like (Optional)" type = "text">
+<button onclick="search_song($('#target').val(),'target_in')">Search Target</button>
+<select id="target_in"></select>
 </div>
 
 <div id="viz" style="text-align: center;">
@@ -52,7 +56,7 @@ body {
     <input name="updateButton" 
            type="button" 
            value="Go!" 
-           onclick="retrievePath($('#source').val(),$('#target').val())" 
+           onclick="retrievePath($('#source_in').val(),$('#target_in').val())"
            id = "mainButton"/>
 </div>
 <script src="main.js"></script>

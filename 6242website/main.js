@@ -1,11 +1,41 @@
-function retrievePath(source,target){
-	str = "source="+source+"&target="+target;
-	$.get("index.php?"+str, function(data){
-		array = data.split("^");
-		updateData(array);
+function SongInfo(name, artist) {
+    this.name = name;
+    this.artist = artist;
+}
+
+function search_song(name,id){
+	$("#"+id).html("<select id=\"source_in\"></select>");
+	$.get("search.php?name="+name, function(data){
+		if(data == "-Select-"){
+			$("#"+id).append("<option value=\"<SPE>\">No result!</option>")
+		}else{
+			array = data.split("^");
+			array.forEach(function(line){
+				temp = line.split("<SPE>");
+				$("#"+id).append("<option value="+ temp[1] +">"+ temp[0] +"</option>")
+			})
+		}
 	})
 }
 
+function retrievePath(source,target){
+	var data_delimeter = "^";
+	var attribute_delimeter = "--";
+	if(source == null || source == "null"){
+		alert("Please select source.");
+		return;
+	}
+	str = "source="+source+"&target="+target;
+	$.get("index.php?"+str, function(data){
+		var array = data.split(data_delimeter);
+		var songinfo = [];
+		for(i=0; i<array.length; i++){
+			parts = array[i].split(attribute_delimeter);
+			songinfo.push(new SongInfo(parts[0], parts[1]));
+		}
+		updateData(songinfo);
+	})
+}
 
 var margin = {top: 30, right: 20, bottom: 30, left: 30},
     width = 1200 - margin.left - margin.right,
@@ -54,16 +84,16 @@ addNodeLabel("#mainCircleContainer1", "Got something you really like?", "");
 createNode(svg, 800, y_position, mainCircleRadius, mainCircles[1].color, "mainCircleContainer2", "mainCircle2");
 addNodeLabel("#mainCircleContainer2", "We'll find something you don't like!", "");
 
+
 for (i = 0; i < pathNodes.length; i++) {
-	console.log("#pathCircleContainer" + i)
-	createNode(svg, 100 + (i+1)*180, y_position, 0, pathNodes[i].color, "pathCircleContainer" + i, "pathCircle")
+	createNode(svg, 100 + (i+1)*180, y_position, 0, pathNodes[i].color, "pathCircleContainer" + i, "pathCircle");
 
 	d3.select("#pathCircleContainer" + i).selectAll(".pathCircle")
         .on('mouseover', function () {
         	addSimilar("#pathCircleContainer1", "similarContainer");
         	console.log("#pathCircleContainer" + i)
         })
-        .on('mouseout', function() {removeSimilar()})
+        .on('mouseout', function() {removeSimilar()});
 	// var pathContainer = svg.append("g")
 	// 						.attr("transform", "translate(" + (margin.left + 100 + (i+1)*180) + "," + (margin.top + 170) + ")")
 	// 						.attr("class", "mainCircleContainer" + i)
@@ -90,6 +120,7 @@ function createNode(parent, x, y, radius, color, containerId, circleClass, conta
 }
 
 function addNodeLabel(containerId, song, singer, fontsize = 15) {
+	console.log(containerId);
 	d3.select(containerId).selectAll("text").remove();
 	var container = d3.select(containerId);
 	container.append("text")
@@ -106,14 +137,14 @@ function addNodeLabel(containerId, song, singer, fontsize = 15) {
 }
 
 function updateData(path) {
-	sourceSongName = path[0];
-	targetSongName = path[path.length-1];
+	sourceSong = path[0];
+	targetSong = path[path.length-1];
     // Select the section we want to apply our changes to
     d3.select("#mainButton") 
             // .duration(750)
         .attr("value", "Back");
-    addNodeLabel("#mainCircleContainer1", sourceSongName, "No singer info yet")
-    addNodeLabel("#mainCircleContainer2", targetSongName, "No singer info yet")
+    addNodeLabel("#mainCircleContainer1", sourceSong.name, sourceSong.artist);
+    addNodeLabel("#mainCircleContainer2", targetSong.name, targetSong.artist);
     var svg = d3.select("body").transition();
 
     // // Make the changes
@@ -136,9 +167,12 @@ function updateData(path) {
 		svg.selectAll(".pathCircle")   // change the line
 	            .duration(750)
 	            .attr("r", 60);
-		for (i = 0; i < pathNodes.length; i++) {
-	        addNodeLabel("#pathCircleContainer" + i, pathNodes[i].song, pathNodes[i].singer)
-	        }
+
+		var count = 0;
+		for (i = 1; i < path.length-1; i++) {
+	        addNodeLabel("#pathCircleContainer" + (i-1), path[i].name, path[i].artist);
+			if(++count == pathNodes.length) break;
+		}
 
 
 	// createNode(d3.select("#pathCircleContainer1"), 20, 20, 10, 'red', "similarContainer1", "similarNode")

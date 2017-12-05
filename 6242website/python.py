@@ -23,7 +23,9 @@ for s in path:
 		out.append("Song not find");
 	else:
 		for row in data:
-			out.append(row[3].encode('utf-8').strip());	
-			
+			song_name = row[3]
+			song_artist = row[2]
+			song_info = (song_name + "--" + song_artist).encode('utf-8').strip()
+			out.append(song_info)
 
-print '^'.join(out);
+print '^'.join(out)
